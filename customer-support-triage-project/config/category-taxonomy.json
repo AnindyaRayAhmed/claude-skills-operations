@@ -1,0 +1,89 @@
+{
+  "category_taxonomy": {
+    "version": "1.0.0",
+    "description": "Full category tree for customer support triage. Use primary + subcategory in triage reports.",
+    "categories": [
+      {
+        "id": "billing",
+        "label": "Billing & Payments",
+        "subcategories": [
+          { "id": "billing.payment_failure", "label": "Payment failure / declined" },
+          { "id": "billing.incorrect_charge", "label": "Incorrect charge / overcharge" },
+          { "id": "billing.refund_request", "label": "Refund request" },
+          { "id": "billing.subscription_change", "label": "Subscription / plan change" },
+          { "id": "billing.invoice_request", "label": "Invoice / receipt request" }
+        ]
+      },
+      {
+        "id": "orders",
+        "label": "Orders & Fulfillment",
+        "subcategories": [
+          { "id": "orders.not_received", "label": "Order not received" },
+          { "id": "orders.wrong_item", "label": "Wrong item delivered" },
+          { "id": "orders.damaged", "label": "Damaged item" },
+          { "id": "orders.delivery_delay", "label": "Delivery delay" },
+          { "id": "orders.cancellation", "label": "Order cancellation" },
+          { "id": "orders.return_exchange", "label": "Return / exchange" }
+        ]
+      },
+      {
+        "id": "technical",
+        "label": "Technical Support",
+        "subcategories": [
+          { "id": "technical.not_working", "label": "Product not working / bug" },
+          { "id": "technical.login_access", "label": "Login / access issue" },
+          { "id": "technical.integration_api", "label": "Integration / API problem" },
+          { "id": "technical.performance", "label": "Performance / speed issue" },
+          { "id": "technical.data_loss", "label": "Data loss / corruption" }
+        ]
+      },
+      {
+        "id": "account",
+        "label": "Account Management",
+        "subcategories": [
+          { "id": "account.locked_suspended", "label": "Account locked / suspended" },
+          { "id": "account.password_reset", "label": "Password reset" },
+          { "id": "account.profile_update", "label": "Profile / settings update" },
+          { "id": "account.closure_request", "label": "Account closure request" },
+          { "id": "account.gdpr_dsar", "label": "Data export / deletion (GDPR/DSAR)" }
+        ]
+      },
+      {
+        "id": "product_info",
+        "label": "Product & Information",
+        "subcategories": [
+          { "id": "product_info.feature_question", "label": "Feature question" },
+          { "id": "product_info.pricing", "label": "Pricing inquiry" },
+          { "id": "product_info.compatibility", "label": "Compatibility question" },
+          { "id": "product_info.availability", "label": "Availability / stock inquiry" }
+        ]
+      },
+      {
+        "id": "complaints",
+        "label": "Complaints & Escalations",
+        "subcategories": [
+          { "id": "complaints.service_quality", "label": "Service quality complaint" },
+          { "id": "complaints.staff_conduct", "label": "Staff conduct complaint" },
+          { "id": "complaints.policy_dispute", "label": "Policy dispute" },
+          { "id": "complaints.legal_threat", "label": "Legal / regulatory threat" },
+          { "id": "complaints.media_risk", "label": "Media / PR risk" }
+        ]
+      },
+      {
+        "id": "other",
+        "label": "Other",
+        "subcategories": [
+          { "id": "other.compliment", "label": "Compliment / positive feedback" },
+          { "id": "other.spam", "label": "Spam / off-topic" },
+          { "id": "other.unclassifiable", "label": "Unclassifiable — flag for human" }
+        ]
+      }
+    ],
+    "notes": [
+      "Use primary category label and subcategory label in triage reports, not IDs.",
+      "If multiple categories apply, list as: PRIMARY_CATEGORY → SUBCATEGORY + SECONDARY_CATEGORY → SUBCATEGORY",
+      "If no subcategory fits, use the primary category only and note in Confidence Note.",
+      "Add custom subcategories under the relevant parent as your team identifies recurring patterns."
+    ]
+  }
+}

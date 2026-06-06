@@ -1,0 +1,123 @@
+[
+  {
+    "id": "TC-001",
+    "name": "Escalated billing complaint — repeat contact",
+    "channel": "email",
+    "input": "CHANNEL: email\nFROM: Priya Sharma\nACCOUNT: ACC-88421\nMESSAGE:\nI have now contacted your company THREE TIMES about the same issue and nobody has resolved it. You charged me TWICE for my subscription in November — I have the bank statements to prove it. I've been a customer for 6 years and this is absolutely unacceptable. If this is not fixed by Friday I will be disputing the charge with my bank and posting about this on every review site I can find. Absolutely disgusted.",
+    "expected": {
+      "category": "Billing & Payments → Incorrect charge / overcharge",
+      "urgency": "HIGH",
+      "emotional_state": "ESCALATED",
+      "sentiment_score_max": 2,
+      "risk_flags_must_include": ["REPEAT_CONTACT", "CHURN_SIGNAL", "MEDIA_RISK", "FINANCIAL_DISPUTE"],
+      "draft_response_required": true,
+      "escalate": true,
+      "confidence": "HIGH"
+    }
+  },
+  {
+    "id": "TC-002",
+    "name": "Legal threat + GDPR request",
+    "channel": "chat",
+    "input": "CHANNEL: chat\nFROM: User ID 9912\nMESSAGE:\nMy personal data was shared with a third party without my consent. I have not agreed to this in any terms I signed. My solicitor has advised me I have grounds to pursue this under GDPR. I want all my data deleted and a full explanation of what was shared and with whom.",
+    "expected": {
+      "category_must_include": ["GDPR", "legal"],
+      "urgency": "CRITICAL",
+      "risk_flags_must_include": ["LEGAL_THREAT", "GDPR_DSAR"],
+      "draft_response_required": true,
+      "draft_response_must_not_contain": ["we will", "we'll refund", "data was shared", "not shared"],
+      "escalate": true,
+      "confidence": "HIGH"
+    }
+  },
+  {
+    "id": "TC-003",
+    "name": "Simple delivery delay — WhatsApp",
+    "channel": "whatsapp",
+    "input": "CHANNEL: whatsapp\nFROM: +91 98XXX XXXXX\nMESSAGE:\nHi! My order #ORD-44521 was supposed to arrive yesterday but it still hasn't come. Can you check? Thanks",
+    "expected": {
+      "category": "Orders & Fulfillment → Delivery delay",
+      "urgency": "LOW",
+      "emotional_state": "NEUTRAL",
+      "sentiment_score_min": 3,
+      "risk_flags": "NONE",
+      "draft_response_required": true,
+      "escalate": false,
+      "confidence": "HIGH"
+    }
+  },
+  {
+    "id": "TC-004",
+    "name": "Angry social media post",
+    "channel": "social",
+    "input": "CHANNEL: social\nFROM: @angry_customer_99\nPLATFORM: Twitter/X\nMESSAGE:\n@CompanyName your app has been broken for 3 days and your support team just keeps closing my tickets without fixing anything!!! This is a JOKE. Never using you again.",
+    "expected": {
+      "category_must_include": ["Technical Support", "Complaints"],
+      "urgency": "HIGH",
+      "emotional_state": "ESCALATED",
+      "risk_flags_must_include": ["CHURN_SIGNAL", "REPEAT_CONTACT"],
+      "draft_response_required": true,
+      "draft_response_must_contain": ["DM", "private"],
+      "escalate": true,
+      "confidence": "MEDIUM"
+    }
+  },
+  {
+    "id": "TC-005",
+    "name": "Completely ambiguous message",
+    "channel": "ticket",
+    "input": "CHANNEL: ticket\nMESSAGE:\nit keeps doing the thing again",
+    "expected": {
+      "category": "Unclassifiable",
+      "urgency": "UNKNOWN",
+      "confidence": "INSUFFICIENT",
+      "draft_response_required": true,
+      "draft_response_must_contain": ["more detail", "could you"],
+      "escalate": false
+    }
+  },
+  {
+    "id": "TC-006",
+    "name": "Positive compliment",
+    "channel": "email",
+    "input": "CHANNEL: email\nFROM: James Okafor\nMESSAGE:\nJust wanted to say — your support agent Nadia was absolutely fantastic yesterday. She sorted out my whole issue in one call and even followed up the next morning to check I was happy. That's rare. Please pass on my thanks.",
+    "expected": {
+      "category": "Other → Compliment / positive feedback",
+      "urgency": "LOW",
+      "emotional_state": "POSITIVE",
+      "sentiment_score_min": 4,
+      "risk_flags": "NONE",
+      "draft_response_required": true,
+      "escalate": false,
+      "confidence": "HIGH"
+    }
+  },
+  {
+    "id": "TC-007",
+    "name": "Potential safety concern",
+    "channel": "chat",
+    "input": "CHANNEL: chat\nFROM: Unknown\nMESSAGE:\nI've been trying to sort out this billing issue for weeks and I just can't cope anymore. I don't know what to do. I'm desperate.",
+    "expected": {
+      "urgency": "CRITICAL",
+      "risk_flags_must_include": ["SAFETY_CONCERN"],
+      "auto_escalate": true,
+      "draft_response_must_not_contain": ["your refund", "we will process"],
+      "confidence": "HIGH"
+    }
+  },
+  {
+    "id": "TC-008",
+    "name": "Password reset — standard low urgency",
+    "channel": "ticket",
+    "input": "CHANNEL: ticket\nFROM: Maria Gonzalez\nACCOUNT: ACC-21304\nMESSAGE:\nHi, I forgot my password and the reset email isn't arriving. Can you help?",
+    "expected": {
+      "category": "Account Management → Password reset",
+      "urgency": "MEDIUM",
+      "emotional_state": "NEUTRAL",
+      "risk_flags": "NONE",
+      "draft_response_required": true,
+      "escalate": false,
+      "confidence": "HIGH"
+    }
+  }
+]

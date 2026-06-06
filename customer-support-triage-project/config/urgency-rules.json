@@ -1,0 +1,98 @@
+{
+  "urgency_rules": {
+    "version": "1.0.0",
+    "description": "Urgency level definitions, criteria, response targets, and trigger phrase lists.",
+    "levels": [
+      {
+        "level": "CRITICAL",
+        "color_code": "#CC0000",
+        "description": "Immediate escalation required. Do not leave in standard queue.",
+        "criteria": [
+          "Legal threat present (see risk-flags.json: LEGAL_THREAT)",
+          "Regulatory or government body mentioned (ICO, FTC, ombudsman, watchdog)",
+          "Media threat present (see risk-flags.json: MEDIA_RISK)",
+          "Data breach suspicion reported by customer",
+          "Safety concern detected (see risk-flags.json: SAFETY_CONCERN)",
+          "Service completely down for a paying customer on a critical plan",
+          "Fraud suspicion detected (see risk-flags.json: FRAUD_SUSPICION)",
+          "LEGAL_THREAT + MEDIA_RISK combination"
+        ],
+        "auto_escalate": true,
+        "draft_response": false,
+        "response_target_hours": 1,
+        "queue_position": "TOP — bypass standard queue"
+      },
+      {
+        "level": "HIGH",
+        "color_code": "#FF6600",
+        "description": "Senior agent required. Expedite but draft response can be prepared.",
+        "criteria": [
+          "Repeat contact: 3 or more times for the same issue",
+          "Significant financial impact (threshold configurable — default >$500 or business-critical)",
+          "SLA breach confirmed or imminent",
+          "Churn signal present (CHURN_SIGNAL flag)",
+          "VIP or high-value account with negative experience",
+          "GDPR / DSAR request received",
+          "Billing dispute with chargeback threat",
+          "Public-facing damage possible but not yet critical"
+        ],
+        "auto_escalate": false,
+        "draft_response": true,
+        "draft_requires_review": true,
+        "response_target_hours": 4,
+        "queue_position": "PRIORITY — ahead of MEDIUM and LOW"
+      },
+      {
+        "level": "MEDIUM",
+        "color_code": "#FFB300",
+        "description": "Standard handling. Clear resolution path exists. No unusual urgency.",
+        "criteria": [
+          "First contact for a common, resolvable issue",
+          "No risk flags present",
+          "No deadline or SLA concern stated",
+          "Billing, order, or technical issue with a standard fix",
+          "FRUSTRATED or NEUTRAL emotional state"
+        ],
+        "auto_escalate": false,
+        "draft_response": true,
+        "draft_requires_review": false,
+        "response_target_hours": 24,
+        "queue_position": "STANDARD — normal queue order"
+      },
+      {
+        "level": "LOW",
+        "color_code": "#4CAF50",
+        "description": "Non-urgent. Handle in order. No time pressure.",
+        "criteria": [
+          "General product or pricing inquiry",
+          "Positive feedback or compliment",
+          "Non-urgent informational request",
+          "Spam or off-topic message requiring only a brief response or no response"
+        ],
+        "auto_escalate": false,
+        "draft_response": true,
+        "draft_requires_review": false,
+        "response_target_hours": 72,
+        "queue_position": "LOW — handle after MEDIUM tickets"
+      }
+    ],
+    "trigger_phrase_overrides": {
+      "description": "These phrases auto-trigger CRITICAL urgency regardless of other signals.",
+      "phrases": [
+        "lawyer", "solicitor", "attorney", "legal action", "sue", "court",
+        "BBC", "CNN", "journalist", "reporter", "going public", "viral",
+        "news article", "press", "ombudsman", "watchdog", "regulator",
+        "ICO", "FTC", "GDPR", "data breach", "my data was leaked",
+        "hurt myself", "harm myself", "I can't take this", "I'm desperate",
+        "nothing left", "can't cope"
+      ],
+      "action": "Set urgency to CRITICAL and flag for immediate human review. Do not rely on draft response alone."
+    },
+    "override_policy": {
+      "description": "Human agents may override AI-assigned urgency levels.",
+      "allowed": true,
+      "log_required": true,
+      "note": "Track override rate weekly. Target <15% override rate. High override rate signals recalibration needed."
+    }
+  }
+}

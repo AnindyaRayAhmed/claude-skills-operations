@@ -1,0 +1,140 @@
+{
+  "risk_flags": {
+    "version": "1.0.0",
+    "description": "Risk flag definitions, trigger conditions, and recommended actions.",
+    "flags": [
+      {
+        "id": "LEGAL_THREAT",
+        "label": "Legal Threat",
+        "description": "Customer has explicitly or implicitly threatened legal action.",
+        "trigger_phrases": [
+          "lawyer", "solicitor", "attorney", "legal action", "sue", "suing",
+          "take you to court", "court", "small claims", "litigation"
+        ],
+        "urgency_override": "CRITICAL",
+        "auto_escalate": true,
+        "action": "Do not respond substantively. Escalate to legal/senior team immediately. Acknowledge receipt only."
+      },
+      {
+        "id": "MEDIA_RISK",
+        "label": "Media / PR Risk",
+        "description": "Customer threatens public exposure via media or social channels.",
+        "trigger_phrases": [
+          "journalist", "reporter", "news", "BBC", "CNN", "newspaper",
+          "going public", "viral", "tweet", "post online", "review site",
+          "Trustpilot", "Google review", "Reddit"
+        ],
+        "urgency_override": "CRITICAL",
+        "auto_escalate": true,
+        "action": "Flag to PR/comms team. Prioritize resolution before public escalation."
+      },
+      {
+        "id": "GDPR_DSAR",
+        "label": "GDPR / Data Subject Access Request",
+        "description": "Customer is requesting access to, deletion of, or correction of personal data under privacy law.",
+        "trigger_phrases": [
+          "GDPR", "data protection", "right to erasure", "right to be forgotten",
+          "delete my data", "my personal data", "ICO", "FTC", "CCPA",
+          "data subject access request", "DSAR", "data portability"
+        ],
+        "urgency_override": "HIGH",
+        "auto_escalate": true,
+        "action": "Log as formal DSAR. Start 30-day regulatory clock. Route to DPO. Acknowledge receipt within 24hrs."
+      },
+      {
+        "id": "CHURN_SIGNAL",
+        "label": "Churn Signal",
+        "description": "Customer has expressed intent to cancel or switch to a competitor.",
+        "trigger_phrases": [
+          "cancel my account", "cancelling", "switching to", "going with",
+          "never using again", "closing my account", "leaving",
+          "found a better", "competitor name"
+        ],
+        "urgency_override": "HIGH",
+        "auto_escalate": false,
+        "action": "Route to retention team or senior agent. Resolve underlying issue before addressing churn."
+      },
+      {
+        "id": "FINANCIAL_DISPUTE",
+        "label": "Financial Dispute",
+        "description": "Significant unauthorized or disputed charge; or customer threatens chargeback.",
+        "trigger_phrases": [
+          "chargeback", "dispute this charge", "unauthorized charge",
+          "fraudulent charge", "bank dispute", "credit card dispute",
+          "never authorized"
+        ],
+        "urgency_override": "HIGH",
+        "auto_escalate": false,
+        "action": "Escalate to billing team. Pull account transaction history. Do not confirm or deny the charge before investigation."
+      },
+      {
+        "id": "REPEAT_CONTACT",
+        "label": "Repeat Contact",
+        "description": "Customer has contacted about the same issue multiple times without resolution.",
+        "trigger_phrases": [
+          "third time", "again", "still not resolved", "contacted before",
+          "already spoke to", "ticket was closed", "nobody fixed",
+          "same issue", "still happening"
+        ],
+        "urgency_override": "HIGH",
+        "auto_escalate": false,
+        "action": "Pull prior ticket history. Merge or reference existing cases. Assign to senior agent."
+      },
+      {
+        "id": "VIP_CUSTOMER",
+        "label": "VIP / High-Value Customer",
+        "description": "Customer is flagged as high-value in CRM or account system.",
+        "trigger_phrases": [],
+        "trigger_notes": "Triggered by account data, not message content. Set programmatically from CRM.",
+        "urgency_override": "HIGH",
+        "auto_escalate": false,
+        "action": "Escalate to senior or dedicated account manager. Expedite resolution."
+      },
+      {
+        "id": "SAFETY_CONCERN",
+        "label": "Safety Concern",
+        "description": "Customer message contains signals of physical or emotional distress.",
+        "trigger_phrases": [
+          "hurt myself", "harm myself", "I can't take this anymore",
+          "I'm desperate", "at my wit's end", "don't know what to do",
+          "nothing left", "can't cope"
+        ],
+        "urgency_override": "CRITICAL",
+        "auto_escalate": true,
+        "action": "Do not send a standard support response. Escalate immediately to trained staff. Respond with empathy and appropriate resources."
+      },
+      {
+        "id": "FRAUD_SUSPICION",
+        "label": "Fraud Suspicion",
+        "description": "Unusual request pattern, identity inconsistency, or suspicious account behavior.",
+        "trigger_phrases": [],
+        "trigger_notes": "Triggered by agent judgment or pattern detection — e.g., account accessed from new location, request to change all contact details, unusual refund pattern.",
+        "urgency_override": "CRITICAL",
+        "auto_escalate": true,
+        "action": "Lock ticket for senior review. Do not process request until identity verified. Notify fraud/security team."
+      },
+      {
+        "id": "POLICY_EXCEPTION_NEEDED",
+        "label": "Policy Exception Required",
+        "description": "Resolution requires going beyond standard policy limits.",
+        "trigger_phrases": [],
+        "trigger_notes": "Triggered when agent determines standard policy cannot resolve the issue.",
+        "urgency_override": null,
+        "auto_escalate": false,
+        "action": "Escalate to team lead or manager for exception approval. Do not commit to exception without approval."
+      }
+    ],
+    "combination_rules": [
+      {
+        "flags": ["LEGAL_THREAT", "MEDIA_RISK"],
+        "result": "Elevate to CRITICAL immediately. Notify legal and PR/comms simultaneously.",
+        "action": "Senior leadership awareness may be required."
+      },
+      {
+        "flags": ["REPEAT_CONTACT", "CHURN_SIGNAL"],
+        "result": "HIGH urgency minimum. Assign to retention-experienced senior agent.",
+        "action": "Treat as at-risk account regardless of original issue severity."
+      }
+    ]
+  }
+}
